@@ -1,3 +1,4 @@
+import { validate } from 'class-validator';
 import { IUser } from './user.interface';
 import { UserEntity } from './user.entity';
 import { Injectable } from '@nestjs/common';
@@ -20,7 +21,14 @@ export class UserService {
   }
 
   async create(data: IUser) {
-    return await this.userRepository.save(this.userRepository.create(data));
+    const user = this.userRepository.create(data);
+    const error = await validate(user);
+
+    if (error.length != 0) {
+      return error;
+    }
+
+    return await this.userRepository.save(user);
   }
 
   async update(id: string, data: IUser) {

@@ -9,7 +9,6 @@ import {
   Post,
   Put,
 } from '@nestjs/common';
-
 @Controller('user')
 export class UserController {
   constructor(private UserService: UserService) {}
